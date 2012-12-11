@@ -55,3 +55,41 @@ To work well with many other plugins, it is recommended that you prefix your tem
 ### Adding additional gems
 
 If you need custom gems, create a Gemfile in your plugin's directory. When you run <code>bundle install</code>, the main <a href="https://github.com/crazed/optopus/blob/master/Gemfile">Optopus Gemfile</a> will search the various plugin_paths and evaluate any Gemfiles that are found. Because of the way we handle multiple Gemfiles, a Gemfile.lock is not included in the repository. Therefore, it is recommended that you specify versions in the actual Gemfile.
+
+### Using the config file in your plugin
+
+To take advantage of <code>application.yaml</code>, you can read any values by using the standard Sinatra settings object. For example, if you're writing a plugin that requires some username and password you can require they exist by utilizing the <code>registered</code> method:
+
+    module Optopus
+      module Plugin
+        module HelloWorld
+          extend Optopus::Plugin
+
+          plugin do
+            nav_link :display => 'HelloWorld', :route => '/hello'
+          end
+
+          get '/hello' do
+            body "Hello world!"
+          end
+
+          def self.registered(app)
+            unless app.settings.plugins.include?('hello_world')
+              raise 'Missing configuration!'
+            end
+
+            config = app.settings.plugins['hello_world']
+            unless config['username']
+              raise 'HelloWorld plugin expects a username!'
+            end
+
+            unless config['password']
+              raise 'HelloWorld plugin expects a password!'
+            end
+
+            # Don't forget to call super!
+            super(app)
+          end
+        end
+      end
+    end
