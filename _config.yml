@@ -1,5 +1,5 @@
 auto: true
-markdown: rdiscount
+markdown: kramdown
 permalink: /news/:title
 rdiscount extensions: [smart]
 exclude: vendor Gemfile Gemfile.lock
