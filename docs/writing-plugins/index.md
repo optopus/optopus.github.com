@@ -65,12 +65,10 @@ To take advantage of <code>application.yaml</code>, you can read any values by u
         module HelloWorld
           extend Optopus::Plugin
 
-          plugin do
-            nav_link :display => 'HelloWorld', :route => '/hello'
-          end
-
-          get '/hello' do
-            body "Hello world!"
+          def make_api_connection
+            username = settings.plugins['hello_world']['username']
+            password = settings.plugins['hello_world']['password']
+            # some magic api connection
           end
 
           def self.registered(app)
@@ -93,3 +91,12 @@ To take advantage of <code>application.yaml</code>, you can read any values by u
         end
       end
     end
+
+Then, in your <code>application.yaml</code> file, you would have something like this:
+
+    development:
+      plugin_path: /home/username/optopus_plugins
+      plugins:
+        hello_world:
+          username: hello
+          password: world
