@@ -68,6 +68,13 @@ Since you're using shotgun, you won't need to reload the server to pick up code 
 
 ## Extra
 
+### Command line access
+If you want a console similar to Rails, you can run:
+
+    $ bundle exec ./scripts/console
+
+That will drop you into a pry/irb shell with all the Optopus code loaded.
+
 ### Adding seed data
 If you want to generate random nodes in your database, you can run:
 
